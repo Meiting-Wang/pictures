@@ -1,3 +1,3 @@
 # picture
 
-Used for uploading pictures
+Used for saving pictures
