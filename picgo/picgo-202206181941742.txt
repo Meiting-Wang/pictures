@@ -1,0 +1,825 @@
+;  搜狗输入法--自定义短语配置文件
+
+;  自定义短语说明：
+;  1、自定义短语支持多行、空格、指定位置。
+;  2、每条自定义短语最多支持30000个汉字，总共支持100000条自定义短语。
+;  3、自定义短语的格式如下：
+
+;  单行的格式：
+;  字符串+英文逗号+数字（指定排序位置）=短语
+
+;  多行的格式：
+;  字符串+英文逗号+数字（指定排序位置）=
+;  多行短语
+
+;  具体格式可以参考下面的实例。
+;  4、最多支持100000行自定义短语。
+;  5、自定义短语的用途有：快捷输入手机号、邮箱、诗词、小短文等，大家可以自由发挥。
+;  6、时间函数功能。具体定义格式如下：;  字符串+英文逗号+数字（指定排序位置）=#表达式
+;  注意：表达式以英文#开头，后面的表达式中的每一个函数的前面都包含有英文$。
+;  函数表如下：
+;  函数    	含义    	举例
+;  $year    	年(4位) 	2006、2008
+;  $year_yy	年(2位) 	06、08
+;  $month     	月      	12、8、3
+;  $month_mm  	月      	12、08、03		//此函数在输入法3.1版之后（含）有效
+;  $day     	日      	3、13、22
+;  $day_dd	日	       03、13、22	//此函数在输入法3.1版之后（含）有效
+;  $weekday 	星期    	0、1、2、5、6
+;  $fullhour	时(24小时制)  	2、8、13、23
+;  $fullhour_hh	时(24小时制)  	02、08、13、23		//此函数在输入法3.1版之后（含）有效
+;  $halfhour	时(12小时制)	2、8、10、11
+;  $halfhour_hh	时(12小时制)	02、08、10、11		//此函数在输入法3.1版之后（含）有效
+;  $ampm    	AM、PM(英)	AM、PM（大写）
+;  $minute  	分      	02、08、15、28
+;  $second  	秒      	02、08、15、28
+;  $year_cn 	年(中文4位)	二〇〇六
+;  $year_yy_cn	年(中文2位)	〇六
+;  $month_cn	月(中文)	十二、八、三
+;  $day_cn  	日(中文)	三、十三、二十二
+;  $weekday_cn 	星期(中文)	日、一、二、五、六
+;  $fullhour_cn	时(中文24时制)	二、八、十三、二十三
+;  $halfhour_cn	时(中文12时制)	二、八、一、十一
+;  $ampm_cn 	上午下午(中文)	上午、下午
+;  $minute_cn	分(中文)	零二、零八、十五、二十八
+;  $second_cn	秒(中文)	零二、零八、十五、二十八
+;  具体你可以参考这个文件最下面的例子，实际体验一下就明白了。
+;  你可以用自定义短语来做一个带动态时间的多行回信落款。
+;  ss,1=#$year年$month月$day_dd日 $fullhour:$minute:$second
+
+aea,1=https://www.aeaweb.org/
+alpha,1=α
+art,1=
+%xelatex编译
+%-----------------------------导言区---------------------------------------
+\documentclass[UTF8,space=auto]{ctexart} %UTF8编码，设置其处理空格的方式为auto
+\usepackage[a4paper]{geometry} %设置纸张为A4大小
+\usepackage{amsmath} %最常用的数学宏包
+\allowdisplaybreaks %允许多行公式换页
+\usepackage{amssymb} %提供了额外的数学字体和数学符号
+\usepackage{bm} %提供了数学环境中的斜粗体
+\usepackage{mathtools} %提供了额外的数学工具，如dcases环境
+\usepackage{lipsum} %英语假文宏包
+\usepackage{graphicx} %插入图片宏包
+\usepackage{float} %在浮动体中可使用H选项
+\usepackage{extarrows} %提供了额外的箭头，如可随文字延长的各种箭头
+\usepackage{wrapfig} %文字环绕宏包
+\usepackage[dvipsnames]{xcolor} %颜色宏包
+\usepackage{booktabs} %三线表
+\usepackage{array} %更多tabular列运算符
+\usepackage[physics]{physicx} %可使用更多的数学表达式命令
+\usepackage{hyperref} %超链接宏包
+\hypersetup{
+	colorlinks=true,
+	citecolor=magenta,%设置cite类命令超链接的颜色
+	linkcolor=blue,%设置目录、脚注、ref等超链接的颜色
+	urlcolor=violet,%设置网页超链接的颜色
+}
+\usepackage[amsmath,thmmarks]{ntheorem} %定理类环境宏包，如果前面使用amsmath宏包，则需加上amsmath宏包选项以避免出现未知问题，若需在定理环境末尾加上特定符号(如证毕符号)，则需使用thmmarks宏包选项以使用\theoremsymbol{}命令。
+{
+	\theoremstyle{plain}
+	\setlength{\theoremindent}{0em}
+	\newtheorem{definition}{定义}[section]
+}
+{
+	\theoremstyle{plain}
+	\setlength{\theoremindent}{0em}
+	\newtheorem{lemma}[definition]{引理}
+}
+{
+	\theoremstyle{plain}
+	\setlength{\theoremindent}{0em}
+	\newtheorem{theorem}[definition]{定理}
+}
+{
+	\theoremstyle{plain}
+	\setlength{\theoremindent}{0em}
+	\newtheorem{corollary}[definition]{推论}
+}
+{
+	\theoremstyle{nonumberplain}
+	\setlength{\theoremindent}{0em}
+	\theorembodyfont{\normalfont}
+	\theoremsymbol{$\blacksquare$} %在证明环境末尾加上一个证毕符号
+	\newtheorem{proof}{证明}
+}
+
+% 设置页眉页脚格式
+\usepackage{fancyhdr}
+\pagestyle{fancy} %使用fancy风格
+\fancyhf{} %清除所有的页眉页脚
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\slshape\leftmark}
+
+%ctex宏包的设置
+\ctexset{
+	section = {
+		format+ = {\raggedright} %节标题左对齐
+	}
+}
+
+%定义新命令与新运算符
+\renewcommand{\headrulewidth}{0pt} %重定义页眉线宽度
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\diff}{d\!}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Avar}{\operatorname{Avar}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Corr}{\operatorname{Corr}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\ind}{\perp\!\!\!\!\perp}
+
+%标题页设置
+\title{这是一个很长很长很长的标题}
+\author{王美庭\thanks{王美庭，暨南大学经济与社会研究院，Email: wangmeiting92@gmail.com}}
+\date{\today}
+
+
+
+
+%-----------------------------正文区---------------------------------------
+\begin{document}
+\maketitle
+
+\section{测试}
+\lipsum[1]
+
+
+
+\end{document}
+
+
+arteng,1=
+%xelatex 或 pdflatex 编译
+%导言区
+\documentclass[UTF8]{article} %UTF8编码
+\usepackage[a4paper]{geometry} %设置纸张为A4大小
+\usepackage{amsmath} %最常用的数学宏包
+\allowdisplaybreaks %允许多行公式换页
+\usepackage{amssymb} %提供了额外的数学字体和数学符号
+\usepackage{bm} %提供了数学环境中的斜粗体
+\usepackage{mathtools} %提供了额外的数学工具，如dcases环境
+\usepackage{lipsum} %英语假文宏包
+\usepackage{graphicx} %插入图片宏包
+\usepackage{float} %在浮动体中可使用H选项
+\usepackage{extarrows} %提供了额外的箭头，如可随文字延长的各种箭头
+\usepackage[dvipsnames]{xcolor} %颜色宏包
+\usepackage{booktabs} %三线表
+\usepackage{array} %更多tabular列运算符
+\usepackage[physics]{physicx} %可使用更多的数学表达式命令
+\usepackage{hyperref} %超链接宏包
+\hypersetup{
+	colorlinks=true,
+	citecolor=magenta,%设置cite类命令超链接的颜色
+	linkcolor=blue,%设置目录、脚注、ref等超链接的颜色
+	urlcolor=violet,%设置网页超链接的颜色
+}
+\usepackage[amsmath,thmmarks]{ntheorem} %定理类环境宏包，如果前面使用amsmath宏包，则需加上amsmath宏包选项以避免出现未知问题，若需在定理环境末尾加上特定符号(如证毕符号)，则需使用thmmarks宏包选项以使用\theoremsymbol{}命令。
+{
+	\theoremstyle{plain}
+	\setlength{\theoremindent}{0em}
+	\newtheorem{definition}{Definition}
+}
+{
+	\theoremstyle{plain}
+	\setlength{\theoremindent}{0em}
+	\newtheorem{lemma}[definition]{Lemma}
+}
+{
+	\theoremstyle{plain}
+	\setlength{\theoremindent}{0em}
+	\newtheorem{theorem}[definition]{Theorem}
+}
+{
+	\theoremstyle{plain}
+	\setlength{\theoremindent}{0em}
+	\newtheorem{corollary}[definition]{Corollary}
+}
+{
+	\theoremstyle{nonumberplain}
+	\setlength{\theoremindent}{0em}
+	\theorembodyfont{\normalfont}
+	\theoremsymbol{$\blacksquare$} %在证明环境末尾加上一个证毕符号
+	\newtheorem{proof}{Proof}
+}
+
+%定义新命令与新运算符
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\diff}{d\!}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\Avar}{\operatorname{Avar}}
+\newcommand{\Cov}{\operatorname{Cov}}
+\newcommand{\Corr}{\operatorname{Corr}}
+\newcommand{\E}{\mathbb{E}}
+\renewcommand{\P}{\mathbb{P}}
+\renewcommand{\L}{\mathcal{L}}
+\newcommand{\e}{\mathrm{e}}
+\newcommand{\ind}{\perp\!\!\!\!\perp}
+
+%标题页设置
+\title{There is a long long long long title}
+\author{Meiting Wang\thanks{Meiting Wang, Email: wangmeiting92@gmail.com}}
+\date{\today}
+
+
+
+
+%正文区
+\begin{document}
+\maketitle
+
+\lipsum[1-4]
+
+
+
+
+
+
+\end{document}
+
+auto,1=sysuse auto.dta, clear
+bash,1=
+```bash
+
+```
+beta,1=β
+chi,1=χ
+delta,1=δ
+dm,1=
+```
+
+```
+dmm,1=
+```matlab
+
+```
+dms,1=
+```stata
+
+```
+dmt,1=
+```tex
+
+```
+epsilon,1=ε
+esttabcorr,1=
+*estpost corr and esttab(相关系数矩阵)
+sysuse auto.dta, clear
+estpost corr price mpg headroom trunk rep78, matrix
+esttab ., p unstack star(* 0.10 ** 0.05 *** 0.01) nonum nomti noobs compress nogaps 
+
+esttab . using Myfile.rtf, replace p unstack star(* 0.10 ** 0.05 *** 0.01) nonum nomti noobs compress nogaps
+
+esttab . using Myfile.tex, replace p unstack star(* 0.10 ** 0.05 *** 0.01) nonum nomti noobs compress nogaps title(This is a title) page(array) booktabs align(>{$}c<{$}) eqlabels(,prefix(\multicolumn{1}{c}{) suffix(})) //注意：列名与eqlabels相对应
+
+esttab . using Myfile.tex, replace p unstack star(* 0.10 ** 0.05 *** 0.01) nonum nomti noobs compress nogaps title(This is a title) page(array,dcolumn) booktabs align(D{.}{.}{-1}) eqlabels(,prefix(\multicolumn{1}{c}{) suffix(}))
+
+
+esttabmat,1=
+*esttab and matrix(矩阵的输出)
+set seed 123456
+mat A=1000*matuniform(6,4)
+mat list A
+esttab matrix(A,fmt(2)), compress nomti
+
+esttab matrix(A,fmt(2)) using Myfile.rtf, replace compress nomti
+
+esttab matrix(A,fmt(2)) using Myfile.tex, replace compress nomti title(This is a title) page(array) booktabs align(*{`=colsof(A)'}{>{$}c<{$}})
+
+esttab matrix(A,fmt(2)) using Myfile.tex, replace compress nomti title(This is a title) page(array,dcolumn) booktabs align(*{`=colsof(A)'}{D{.}{.}{-1}})
+
+
+esttabreg,1=
+*esttab and regression(回归结果输出)
+sysuse auto.dta, clear
+eststo clear
+eststo: reg price weight trunk
+eststo: reg price weight trunk length
+eststo: reg price weight trunk length i.rep78
+eststo: reg price weight trunk length i.rep78 i.foreign
+esttab *, indicate("rep78=*.rep78" "foreign=*.foreign") se star(* 0.10 ** 0.05 *** 0.01) r2 obslast compress nogaps
+
+esttab * using Myfile.rtf, replace indicate("rep78=*.rep78" "foreign=*.foreign") se star(* 0.10 ** 0.05 *** 0.01) r2 compress nogaps noobs scalars(N) //之所以采用noobs scalars(N)，是为了让N显示为upshape
+
+esttab * using Myfile.tex, replace indicate("rep78=*.rep78" "foreign=*.foreign", label(\multicolumn{1}{c}{Yes} \multicolumn{1}{c}{No})) se star(* 0.10 ** 0.05 *** 0.01) r2 compress nogaps title(This is a title) page(array) align(>{$}c<{$}) booktabs noobs scalars(N)
+
+esttab * using Myfile.tex, replace indicate("rep78=*.rep78" "foreign=*.foreign", label(\multicolumn{1}{c}{Yes} \multicolumn{1}{c}{No})) se star(* 0.10 ** 0.05 *** 0.01) r2 compress nogaps title(This is a title) page(array,dcolumn) align(D{.}{.}{-1}) booktabs noobs scalars(N)
+
+
+esttabregm,1=
+*esttab and regression(带组别名称的回归结果输出)
+sysuse auto.dta, clear
+eststo clear
+eststo: reg price weight trunk
+eststo: reg price weight trunk length
+eststo: reg price weight trunk length i.rep78
+eststo: reg price weight trunk length i.rep78 i.foreign
+esttab *, indicate("rep78=*.rep78" "foreign=*.foreign") se star(* 0.10 ** 0.05 *** 0.01) r2 obslast compress nogaps mgroups("Group 1" "Group 2", pattern(1 0 1 0))
+
+esttab * using Myfile.rtf, replace indicate("rep78=*.rep78" "foreign=*.foreign") se star(* 0.10 ** 0.05 *** 0.01) r2 compress nogaps noobs scalars(N) mgroups("Group 1" "Group 2", pattern(1 0 1 0))
+
+esttab * using Myfile.tex, replace indicate("rep78=*.rep78" "foreign=*.foreign", label(\multicolumn{1}{c}{Yes} \multicolumn{1}{c}{No})) se star(* 0.10 ** 0.05 *** 0.01) r2 compress nogaps title(This is a title) page(array) align(>{$}c<{$}) booktabs noobs scalars(N) mgroups("Group 1" "Group 2", pattern(1 0 1 0) span prefix(\multicolumn{@span}{c}{) suffix(}) erepeat(\cmidrule(lr){@span}))
+
+esttab * using Myfile.tex, replace indicate("rep78=*.rep78" "foreign=*.foreign", label(\multicolumn{1}{c}{Yes} \multicolumn{1}{c}{No})) se star(* 0.10 ** 0.05 *** 0.01) r2 compress nogaps title(This is a title) page(array,dcolumn) align(D{.}{.}{-1}) booktabs noobs scalars(N) mgroups("Group 1" "Group 2", pattern(1 0 1 0) span prefix(\multicolumn{@span}{c}{) suffix(}) erepeat(\cmidrule(lr){@span}))
+
+
+esttabsum,1=
+*estpost summarize and esttab(描述性统计)
+sysuse auto.dta, clear
+estpost summarize price mpg weight rep78, d
+esttab ., cells("count mean sd min max") nonum nomti noobs compress
+
+esttab . using Myfile.rtf, replace cells("count mean sd min max") nonum nomti noobs compress
+
+esttab . using Myfile.tex, replace cells("count mean sd min max") nonum nomti noobs title(This is title) page(array) booktabs align(*{5}{>{$}c<{$}}) coll(,prefix(\multicolumn{1}{c}{) suffix(}))
+
+esttab . using Myfile.tex, replace cells("count mean sd min max") nonum nomti noobs title(This is title) page(array,dcolumn) booktabs align(*{5}{D{.}{.}{-1}}) coll(,prefix(\multicolumn{1}{c}{) suffix(}))
+
+
+esttabtabstat,1=
+*estpost tabstat and esttab(描述性统计+分组描述性统计)
+sysuse auto.dta, clear
+estpost tabstat price mpg weight rep78, s(count mean sd min max) c(s)
+esttab ., cells("count mean sd min max") nonum nomti noobs compress
+
+estpost tabstat price mpg weight rep78, by(foreign) s(count mean sd min max) c(s)
+esttab ., cells("count mean sd min max") nonum nomti noobs compress
+
+esttab . using Myfile.rtf, replace cells("count mean sd min max") nonum nomti noobs compress
+
+esttab . using Myfile.tex, replace cells("count mean sd min max") nonum nomti noobs title(This is title) page(array) booktabs align(*{5}{>{$}c<{$}}) coll(,prefix(\multicolumn{1}{c}{) suffix(}))
+
+esttab . using Myfile.tex, replace cells("count mean sd min max") nonum nomti noobs title(This is title) page(array,dcolumn) booktabs align(*{5}{D{.}{.}{-1}}) coll(,prefix(\multicolumn{1}{c}{) suffix(}))
+
+
+esttabttest,1=
+*estpost ttest and esttab(分组T检验)
+sysuse auto.dta, clear
+estpost ttest price mpg headroom trunk rep78, by(foreign)
+esttab ., cells("N_1 mu_1 N_2 mu_2 b(star)") starlevels(* 0.10 ** 0.05 *** 0.01) nonum nomti noobs addn(* p<0.10, ** p<0.05, *** p<0.01)
+
+esttab . using Myfile.rtf, replace cells("N_1 mu_1 N_2 mu_2 b(star)") starlevels("{\super *}" 0.10 "{\super **}" 0.05 "{\super ***}" 0.01) nonum nomti noobs addn("{\super *} {\i p} < 0.10, {\super **} {\i p} < 0.05, {\super ***} {\i p} < 0.01")
+
+esttab . using Myfile.tex, replace cells("N_1 mu_1 N_2 mu_2 b(star)") starlevels(\sym{*} 0.10 \sym{**} 0.05 \sym{***} 0.01) nonum nomti noobs addnotes("$^{*}\ p < 0.10,\ ^{**}\ p < 0.05,\ ^{***}\ p < 0.01$") title(This is a title) page(array) booktabs align(*{5}{>{$}c<{$}}) coll(,prefix(\multicolumn{1}{c}{) suffix(}))
+
+esttab . using Myfile.tex, replace cells("N_1 mu_1 N_2 mu_2 b(star)") starlevels(\sym{*} 0.10 \sym{**} 0.05 \sym{***} 0.01) nonum nomti noobs addnotes("$^{*}\ p < 0.10,\ ^{**}\ p < 0.05,\ ^{***}\ p < 0.01$") title(This is a title) page(array,dcolumn) booktabs align(*{5}{D{.}{.}{-1}}) coll(,prefix(\multicolumn{1}{c}{) suffix(}))
+
+
+eta,1=η
+fig,1=
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{1.eps}
+	\caption{This is a title for figure}
+\end{figure}
+fileread,1=
+tempname handle
+file open `handle' using Myfile.txt, read text
+file read `handle' line
+local linenum = 0
+while r(eof) == 0 {
+	dis %3.0f `++linenum' "." _s(1) _asis `"`line'"'
+	file read `handle' line
+}
+file close `handle'
+
+filewrite,1=
+tempname handle
+file open `handle' using Myfile.txt, write text replace
+file write `handle' "This is a test sentence." _n
+file write `handle' "This is another test sentence." _n
+file write `handle' "This is the last sentence." _n
+file close `handle'
+
+fox,1=wangmeiting92@foxmail.com
+fsdz,1=佛山市南海区南国桃园汇江大酒楼
+fsdz,2=佛山市南海区狮山镇显子岗新东村文化楼
+fszf,1=
+*****************佛山房租计算程序*******************
+*------------------需要修改部分----------------
+local water_meter_1_pre = 1027         //上期厕所水表读数
+local water_meter_2_pre = 28           //上期洗衣机水表读数
+local electric_meter_pre = 25080       //上期电表读数
+
+local water_meter_1 = 1030             //本期厕所水表读数
+local water_meter_2 = 29               //本期洗衣机水表读数
+local electric_meter = 25214           //本期电表读数
+
+
+
+*------------------无需修改部分-------------------
+local water_meter_pre = `water_meter_1_pre' + `water_meter_2_pre' //上期水表总读数
+local water_meter = `water_meter_1' + `water_meter_2' //本期水表总读数
+
+local total_cost = 700 + 10 + (`water_meter'-`water_meter_pre')*3.5 + (`electric_meter'-`electric_meter_pre')*1.3
+
+local year1 = year(date("`c(current_date)'","DMY"))
+local month1 = month(date("`c(current_date)'","DMY"))
+if `month1' == 12 {
+	local year2 = `year1' + 1
+	local month2 = 1
+}
+else {
+	local year2 = `year1'
+	local month2 = `month1' + 1
+}
+
+dis _n(5) ///
+	_col(10) "上期厕所水表读数：`water_meter_1_pre'立方米" _n ///
+	_col(10) "上期洗衣机水表读数：`water_meter_2_pre'立方米" _n ///
+	_col(10) "上期水表总读数：`water_meter_pre'立方米" _n ///
+	_col(10) "上期电表读数：`electric_meter_pre'度" _n(2) ///
+	///
+	_col(10) "本期厕所水表读数：`water_meter_1'立方米" _n ///
+	_col(10) "本期洗衣机水表读数：`water_meter_2'立方米" _n ///
+	_col(10) "本期水表总读数：`water_meter'立方米" _n ///
+	_col(10) "本期电表读数：`electric_meter'度" _n(2) ///
+	///
+	_col(10) "本期总费用(`year1'年`month1'月15日-`year2'年`month2'月15日房租)：" _n ///
+	_col(10) "= 700 + 10 + (`water_meter'-`water_meter_pre')×3.5 + (`electric_meter'-`electric_meter_pre')×1.3" _n ///
+	_col(10) "= 700 + 10 + `=`water_meter'-`water_meter_pre''×3.5 + `=`electric_meter'-`electric_meter_pre''×1.3" _n ///
+	_col(10) "= 700 + 10 + `=(`water_meter'-`water_meter_pre')*3.5' + `=(`electric_meter'-`electric_meter_pre')*1.3'" _n ///
+	_col(10) "= `total_cost'元" _n(3)
+
+
+gamma,1=γ
+gitinst,1=github install Meiting-Wang/
+gjxsfz,1=431022199305166029
+gjxsr,1=1993年05月16日
+gmail,1=wangmeiting92@gmail.com
+grid,1=\draw[help lines] (0,0) grid (4,4);
+gs,1=https://www.codecogs.com/latex/eqneditor.php
+gxhsr,1=2003年01月28日
+gzcsr,1=1971年11月13日
+hjesr,1=1969年08月27日
+hust,1=Huazhong University of Science and Technology
+hxlk,1=
+#王美庭
+暨南大学经济与社会研究院
+$year年$month月$day日
+
+hyper,1=
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	citecolor=magenta,%设置cite类命令超链接的颜色
+	linkcolor=blue,%设置目录、脚注、ref等超链接的颜色
+	urlcolor=violet,%设置网页超链接的颜色
+}
+iesr,1=Institute for Economic and Social Research, Jinan University
+in,1=∈
+inputmb,1=
+clear
+cls
+input id year x y z
+	1 2000 3 5 6
+	1 2001 5 6 8
+	1 2002 3 9 7
+	2 2001 7 11 12
+	2 2002 7 16 9
+	2 2003 7 11 15
+	2 2004 9 11 12
+	3 2000 12 16 14
+	3 2001 19 22 11
+	4 2003 3 6 10
+end
+l, sep(10)
+
+jdyx,1=wangmeitingaa@stu2020.jnu.edu.cn
+json,1=
+```json
+
+```
+jszz,1=
+> 作者：王美庭
+> 
+> 我的主页：| [简书](https://www.jianshu.com/u/86e99383f572) | [CSDN](https://blog.csdn.net/wangmeitingaa) |
+
+kappa,1=κ
+kbd,1=<kbd></kbd>
+la,1=LaTeX
+lambda,1=λ
+leb,1=\left[  \right]
+lep,1=\left(  \right)
+lipsum,1=
+In 1967, John Lennon wrote a song called, “All You Need Is Love.” He also beat both of his wives, abandoned one of his children, verbally abused his gay Jewish manager with homophobic and anti-semitic slurs, and once had a camera crew film him lying naked in his bed for an entire day.
+
+Thirty-five years later, Trent Reznor from Nine Inch Nails wrote a song called “Love Is Not Enough.” Reznor, despite being famous for his shocking stage performances and his grotesque and disturbing videos, got clean from all drugs and alcohol, married one woman, had two children with her, and then canceled entire albums and tours so that he could stay home and be a good husband and father.
+
+One of these two men had a clear and realistic understanding of love. One of them did not. One of these men idealized love as the solution to all of his problems. One of them did not. One of these men was probably a narcissistic asshole. One of them was not.
+
+In our culture, many of us idealize love. We see it as some lofty cure-all for all of life’s problems. Our movies and our stories and our history all celebrate it as life’s ultimate goal, the final solution for all of our pain and struggle. And because we idealize love, we overestimate it. As a result, our relationships pay a price.
+
+
+live,1=wangmeiting1992@live.com
+lj,1=https://www.zybuluo.com/wangmeiting/note/1539773
+lmsz,1=Ⅰ
+lmsz,2=Ⅱ
+lmsz,3=Ⅲ
+lmsz,4=Ⅳ
+lmsz,5=Ⅴ
+lmsz,6=Ⅵ
+lmsz,7=Ⅶ
+lmsz,8=Ⅷ
+lmsz,9=Ⅸ
+lmsz,9=Ⅹ
+lmsz,9=Ⅺ
+lmsz,9=Ⅻ
+mat,1=MATLAB
+mbsj,1=
+clear all
+cls
+set obs 1000
+egen id = fill(1 2) //升序等差为1的数据序列
+expand 10
+bysort id: gen year = _n + 2000
+xtset id year
+
+mdxh,1=2017110097
+mdyx,1=2017110097@mail.scuec.edu.cn
+mdyxw,1=https://exmail.qq.com/login
+mm,1=$$
+msdn,1=https://msdn.itellyou.cn/
+mu,1=μ
+my,1=https://gitee.com/wangmeiting
+myl,1=https://gitee.com/Stata002/StataSX2018/tree/master/2019C/%E7%8E%8B%E7%BE%8E%E5%BA%AD_%E4%B8%AD%E5%8D%97%E6%B0%91%E6%97%8F
+natbib,1=
+\usepackage[round]{natbib}
+%等价于：
+%\usepackage{natbib}
+%\bibpunct[,~]{(}{)}{;}{a}{,}{,}
+
+\bibliographystyle{plainnat} %专属于 natbib 宏包的文献样式有：plainnat、unsrtnat 和 abbrvnat
+
+\bibliography{references.bib}
+netins,1=net install wmt, from("https://raw.githubusercontent.com/Meiting-Wang/wmt/main")
+new,1=
+%定义新命令与新运算符
+\DeclareMathOperator{\diff}{d\!}
+\newcommand{\var}{\mathrm{Var}}
+\newcommand{\cov}{\mathrm{Cov}}
+nlsw,1=sysuse nlsw88.dta, clear
+nu,1=ν
+omega,1=ω
+phi,1=φ
+pi,1=π
+pr,1=
+program define command_name, rclass eclass
+version 16.0
+
+syntax varlist(min=2 max=4 numeric) [, replace append option1(string) option2(numlist >0 integer)]
+/*
+函数主体
+*/
+end
+
+psi,1=ψ
+putdocxm,1=
+*----------------输出矩阵至 Word (by putdocx)-------------------
+matrix A = matuniform(3,2)
+local mat_name A
+mat colnames `mat_name' = col1 col2 //设置矩阵的列名
+mat rownames `mat_name' = row1 row2 row3 //设置矩阵的行名
+matrix list `mat_name'  //列示矩阵的内容
+putdocx begin
+putdocx table table1 = matrix(`mat_name'), colnames rownames ///
+	nformat(%8.3f) halign(center)
+forvalues col = 1/`=colsof(`mat_name')+1' {
+	putdocx table table1(.,`col'), halign(center) //使得所有列居中
+}
+putdocx save Myfile.docx, replace
+shellout Myfile.docx
+/*
+如要书写更为复杂的程序，参照印象笔记的“putdocx实例与注意事项”。
+*/
+
+qqyx,1=379446137@qq.com
+qqyxw,1=https://mail.qq.com/cgi-bin/frame_html?sid=M0o-F-RqL7IqZ3Es&r=9ff8858861d432b2d91a712fdac0b9c8
+regdocx,1=
+*-----------------回归结果 Word 输出(by reg2docx)------------------------------
+reg wage age married occupation
+est store m1
+reg wage age married collgrad occupation
+est store m2
+reg wage age married collgrad occupation race_num*
+est store m3
+reg2docx m1 m2 m3 using Myfile.docx, replace indicate("race=race_num*") ///
+	b(%9.2f) se(%7.2f) scalars(r2(%9.3f) r2_a(%9.2f) N) ///
+	drop(occupation) order(married) ///
+	title(reg2docx_Table: regression result) ///
+	mtitles("OLS-1" "OLS-2" "OLS-3") 
+/*
+1. 可添加不同列的列名
+2. 有诸如 indicate("race=race_num*") 的选项。
+3. 命令运行之后会将所有已经储存的回归结果清除，导致后面无法再继续使用前面的回归结果。
+4. 支持中文。
+*/
+
+removekeywords,1=^\s+(Keywords).*,\r\n
+rho,1=ρ
+scuec,1=South-Central University for Nationalities
+sfz,1=431022199208010719
+shutcom,1=shutdown /s /t 3600
+sigma,1=σ
+sigma,4=Σ
+sj,1=18033241141
+sjg,1=18025994453
+store,1=st_store(.,st_addvar("double","ASF_true"),ASF_true)
+sumdocx,1=
+*-----------------描述性统计 Word 输出(by sum2docx)-------------------------------
+local varlist "wage age race married grade collgrad south union occupation"
+sum2docx `varlist' using Myfile.docx,replace ///
+	stats(N mean(%9.2f) sd(%9.3f) min(%9.2f) median(%9.2f) max(%9.2f)) ///
+	title(sum2docx_Table: Descriptive statistics)
+/*
+1. 在将结果导入到 word 的途中，Stata 界面不能看到相应的结果。
+2. 该命令支持中文。
+3. 若有字符串变量，命令会报错。
+4. 能分别设置每个统计量的小数点位数。
+*/
+
+tab,1=
+\begin{table}[htbp]
+	\centering
+	\caption{This is a title for table}
+	\begin{tabular}{cc}
+		1 & 2 \\
+		3 & 4 \\
+	\end{tabular}
+\end{table}
+tabo,1=http://www.tablesgenerator.com/markdown_tables
+tabt,1=https://tableconvert.com/
+tau,1=τ
+tb,1=www.taobao.com
+tdocx,1=
+*-----------------分组 T 均值检验 Word 输出(by t2docx)--------------------------
+local varlist "wage age race married grade collgrad union"
+t2docx `varlist' using Myfile.docx,replace ///
+	not by(south) title(t2docx_Table: T_test by group)
+/*
+1. 表格报告的内容剔除了所输入变量中包含缺漏值的观测值，且该操作无法被禁止。
+2. 支持中文。
+3. 有 MeanDiff 一列，并默认以"* p < 0.1 ** p < 0.05 *** p < 0.01"的方式标注星号。
+*/
+
+texl,1=Texlive
+texs,1=Texstudio
+theta,1=θ
+ti,1=
+%标题页设置
+\title{
+	这是一个很长很长很长的标题
+}
+\author{王美庭\thanks{王美庭，暨南大学经济与社会研究院，Email: wangmeiting92@gmail.com}}
+\date{\today}
+tieng,1=
+%标题页设置
+\title{
+	There is a long long long long title
+}
+\author{Meiting Wang\thanks{Meiting Wang, Email: wangmeiting92@gmail.com}}
+\date{\today}
+tikz,1=
+\documentclass[a4paper]{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{lipsum}
+\usepackage{tikz}
+\usetikzlibrary{intersections}
+
+\begin{document}
+
+\section{Introduction}
+
+\begin{tikzpicture}
+\draw[help lines] (0,0) grid (4,4);
+\draw[-stealth] (-4,0) -- (4,0);
+\draw[-stealth] (0,-4) -- (0,4);
+
+
+\end{tikzpicture}
+
+
+
+
+
+\end{document}
+
+timer,1=
+timer clear 1
+timer on 1
+timer off 1
+timer list
+titlepage,1=
+%标题页设置
+\title[正短标题]{这是一个很长很长很长很长的标题}
+\subtitle[副短标题]{这是一个副标题}
+\author[王美庭]{王美庭}
+\institute[IESR-JNU]{
+	\textcolor[rgb]{0.0,0.0,0.1}{\small\ttfamily 经济与社会研究院，暨南大学}
+}
+\date[2020/10/4]{\small 2020 年 10 月 4 日}
+
+%%有多位作者时：
+%\author[张三，李四]{张三\inst{1} \and 李四\inst{2}}
+%\institute[IESR-JNU, SOE-HUST]
+%{
+%	\inst{1}\textcolor[rgb]{0.0,0.0,0.1}{\small\ttfamily 经济与社会研究院，暨南大学}
+%	\and
+%	\inst{2}\textcolor[rgb]{0.0,0.0,0.1}{\small\ttfamily 经济学院，华中科技大学}
+%}
+
+titlepageeng,1=
+%标题页设置
+\title[short title]{This is a long long long long long title}
+\subtitle[short subtitle]{This is a subtitle}
+\author[Meiting Wang]{Meiting Wang}
+\institute[IESR-JNU]{
+	\small Institute for Economic and Social Research \\ Jinan University
+}
+
+%有多位作者时：
+%\author[Arthur, Doe] % (optional, for multiple authors)
+%{A.~B.~Arthur\inst{1} \and J.~Doe\inst{2}}
+%
+%\institute[VFU] % (optional)
+%{
+%	\inst{1}%
+%	Faculty of Physics\\
+%	Very Famous University
+%	\and
+%	\inst{2}%
+%	Faculty of Chemistry\\
+%	Very Famous University
+%}
+
+\date[2021/3/6]{\today}
+
+txdz,1=广东省广州市天河区黄埔大道西601号暨南大学经济与社会研究院
+upsilon,1=υ
+wdjy,1=http://ems.whu.edu.cn/
+whdz,1=武汉市洪山区华中科技大学东二区37号
+wmhsr,1=2001年10月16日
+wmtgs,1=622023202047072631
+wmtgskhh,1=中国工商银行武汉喻园支行
+wmtjtx,1=5218995118186996
+wmtms,1=6226220508651436
+wmtmskhh,1=中国民生银行武汉东湖开发区支行
+wmtmsx,1=6226230229851173
+wmtnhns,1=6217280332906350865
+wmtnhnskhh,1=南海农商银行松岗支行
+wmtpfx,1=6259585206825627
+wmtsr,1=1992年08月01日
+wmtzg,1=6217907600005133330
+wmtzgkhh,1=中国银行武汉民族大道支行
+wryx,1=wangmeiting1992@live.com
+wryxw,1=https://outlook.live.com/mail/inbox
+wst,1=! taskkill /F /IM WINWORD.EXE /T
+wyyx,1=wangmeitingh@163.com
+wzfsr,1=1970年04月14日
+xi,1=ξ
+yaml,1=
+#
+---
+tags: 
+date: $year-$month_mm-$day_dd	
+---
+
+yd,1=http://dict.youdao.com/
+yh,1=「」
+yjdz,1=广东省广州市天河区新陶北街暨南花园5栋
+yjsxx,1=http://id.scuec.edu.cn/authserver/login?service=http://yjs.scuec.edu.cn/epstar/login/index.jsp
+ym,1=xyzfq.top
+ysysr,1=1973年08月03日
+zeta,1=ζ
+zgrmyh,1=http://www.pbccrc.org.cn/zxzx/index.shtml
+zgyh,1=6217907600005133330
+znmd,1=South-Central University for Nationalities
+znmdj,1=School of Economics, South-Central University for Nationalities
+zz,1=
+%标题页设置
+\title{
+	这是一个很长很长很长的标题
+}
+\author{王美庭\thanks{王美庭，暨南大学经济与社会研究院，Email: wangmeiting92@gmail.com}}
+\date{\today}
+zzeng,1=
+%标题页设置
+\title{
+	There is a long long long long title
+}
+\author{Meiting Wang\thanks{Meiting Wang, Email: wangmeiting92@gmail.com}}
+\date{\today}
+zzgj,1=http://tool.chinaz.com/
+zzwmt,1=王美庭，男，1992年8月生，湖南郴州人，博士研究生，暨南大学经济与社会研究院，电话：18033241141，研究方向：劳动经济学，电子邮箱：wangmeiting92@gmail.com，邮编：510632
+zzxxy,1=徐小鹰，女，1980年11月生，湖北襄阳人，博士，副教授，中南民族大学经济学院，电话：15972085022，研究方向：宏观经济理论与政策，电子邮箱：877327294@qq.com，邮编：430074
+Delta,1=Δ
+Gamma,1=Γ
+Omega,1=Ω
+Pi,1=Π
+Sigma,1=Σ
+Theta,1=Θ
